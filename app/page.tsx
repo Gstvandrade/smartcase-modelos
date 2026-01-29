@@ -213,7 +213,7 @@ function FormularioSugestao() {
         className={styles.field + " " + styles.textarea}
       />
 
-      <button type="enviar" disabled={enviando} className={styles.button}>
+      <button type="submit" disabled={enviando} className={styles.button}>
         {enviando ? "Enviando..." : "Enviar"}
       </button>
     </form>
