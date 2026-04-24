@@ -1,11 +1,16 @@
 .page {
   min-height: 100vh;
-  background: #000;
-  color: #fff;
+
+  background-image: 
+    linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.85)),
+    url("/bg-tech.png");
+
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+
   display: flex;
   justify-content: center;
-  padding: 28px 16px;
-  position: relative;
 }
 
 /* Fundo tecnológico repetido com opacidade baixa */
@@ -32,12 +37,20 @@
 }
 
 .card {
-  background: rgba(255, 255, 255, 0.04);
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
+
+  background: rgba(10, 10, 10, 0.88); /* mais escuro */
+  border-radius: 16px;
+  padding: 28px;
+
+  backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 0, 0, 0.25);
-  border-radius: 18px;
-  padding: 18px;
-  box-shadow: 0 0 0 1px rgba(255, 0, 0, 0.08);
-  backdrop-filter: blur(2px);
+
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.6); /* profundidade */
+
+  animation: fadeIn 0.6s ease;
 }
 
 .logoWrap {
@@ -53,18 +66,42 @@
 }
 
 .title {
-  font-size: 22px;
-  font-weight: 900;
-  text-align: center;
-  margin: 6px 0 6px;
+  font-size: 30px;
+  font-weight: bold;
+
+  text-align: center; /* 🔥 garante centralização */
+
+  background: linear-gradient(90deg, #ffffff, #ff4d4d);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  margin: 10px 0 15px;
 }
 
 .subtitle {
-  font-size: 14px;
-  opacity: 0.85;
+  margin-top: 22px;
+  margin-bottom: 10px;
+
+  font-size: 16px;
+  font-weight: 600;
+
   text-align: center;
-  margin-bottom: 18px;
-  color: #d6d6d6;
+
+  background: linear-gradient(90deg, #fff, #ff4d4d);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* LINHA DECORATIVA */
+.subtitle::after {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 2px;
+  margin: 8px auto 0;
+
+  background: red;
+  border-radius: 2px;
 }
 
 .searchInput {
@@ -76,11 +113,13 @@
   color: #fff;
   outline: none;
   font-size: 16px;
+  transition: all 0.25s ease;
 }
 
 .searchInput:focus {
   border: 1px solid rgba(255, 0, 0, 0.7);
   box-shadow: 0 0 0 4px rgba(255, 0, 0, 0.12);
+  transition: scale(1.02);
 }
 
 .helper {
@@ -100,6 +139,7 @@
   padding: 14px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   background: rgba(255, 255, 255, 0.03);
+  animation: fadeIn 0.3s ease;
 }
 
 .resultTitle {
@@ -120,8 +160,16 @@
 }
 
 .divider {
-  margin: 24px 0;
-  opacity: 0.15;
+  margin: 50px 0;
+  border: none;
+  height: 1px;
+
+  background: linear-gradient(to right, transparent, red, transparent);
+}
+
+.suggestionBox {
+  margin-top: 30px;
+  padding-top: 10px;
 }
 
 .suggestTitle {
@@ -177,4 +225,99 @@
 .button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 18px;
+}
+
+.tabs {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.tab {
+  padding: 10px 18px;
+  border-radius: 25px;
+  background: #1a1a1a;
+  color: #aaa;
+  border: 1px solid #333;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 500;
+
+  transition: 0.25s;
+}
+
+.tab:hover {
+  background: #2a2a2a;
+  color: white;
+  border-color: red;
+}
+
+.activeTab {
+  padding: 10px 18px;
+  border-radius: 25px;
+  background: red;
+  color: white;
+  border: none;
+  font-size: 15px;
+  font-weight: 600;
+
+  box-shadow: 0 0 12px rgba(255, 0, 0, 0.7);
+  transform: scale(1.05);
+}
+
+.title {
+  font-size: 30px;
+  font-weight: bold;
+  background: linear-gradient(90deg, #fff, #ff4d4d);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.description {
+  font-size: 14px;
+  color: #bbb;
+  line-height: 1.6;
+
+  max-width: 650px;
+  margin: 10px auto;
+
+  text-align: justify; /* 👈 importante */
+}
+
+.highlight {
+  border: 1px solid red;
+  box-shadow: 0 0 12px rgba(255, 0, 0, 0.6);
+  animation: pulse 1s ease;
+}
+
+@keyframes pulse {
+  0% { transform: scale(0.98); }
+  50% { transform: scale(1.02); }
+  100% { transform: scale(1); }
+}
+
+@keyframes glow {
+  0% { box-shadow: 0 0 5px red; }
+  50% { box-shadow: 0 0 15px red; }
+  100% { box-shadow: 0 0 5px red; }
+}
+
+.activeTab {
+  animation: glow 2s infinite;
+}
+
+.sectionTitle {
+  text-align: center !important;
+
+  background: linear-gradient(90deg, #ffffff, #ff4d4d) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+
+  margin-top: 10px;
 }

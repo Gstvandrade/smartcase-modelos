@@ -19,22 +19,25 @@ export default function Home() {
   const [busca, setBusca] = useState("");
   const [modelos, setModelos] = useState<Item[]>([]);
   const [carregando, setCarregando] = useState(true);
+  const [tipo, setTipo] = useState("peliculas");
 
   useEffect(() => {
     const carregar = async () => {
       setCarregando(true);
 
+      const tabela = tipo === "peliculas" ? "Modelos" : "Capas";
+
       const { data, error } = await supabase
-        .from("Modelos")
+        .from(tabela)
         .select("marca, modelo, compativeis")
         .order("modelo", { ascending: true });
 
       if (error) {
-        console.error("Erro Supabase:", error);
-        alert("Erro ao carregar modelos do banco.");
-        setCarregando(false);
-        return;
-      }
+  console.log("ERRO COMPLETO:", error);
+  alert("Erro: " + error.message);
+  setCarregando(false);
+  return;
+}
 
       const lista = ((data ?? []) as LinhaModelo[])
         .map((x) => {
@@ -54,7 +57,7 @@ export default function Home() {
     };
 
     carregar();
-  }, []);
+  }, [tipo]);
 
   const resultados = useMemo(() => {
     const texto = busca.trim().toLowerCase();
@@ -75,24 +78,46 @@ export default function Home() {
       <div className={styles.container}>
         <div className={styles.card}>
           {/* LOGO */}
-          <div className={styles.logoWrap}>
-            <img
-              src="/logo-smartcase.png"
-              alt="SmartCase"
-              className={styles.logo}
-            />
-          </div>
+<div className={styles.logoWrap}>
+  <img
+    src="/logo-smartcase.png"
+    alt="SmartCase"
+    className={styles.logo}
+  />
+</div>
 
-          {/* TITULOS */}
-          <h1 className={styles.title}>
-            Modelos de Peliculas Compativeis - Atualizada
-          </h1>
+{/* HEADER COMPLETO */}
+<div className={styles.header}>
+  <div className={styles.tabs}>
+    <button
+      onClick={() => setTipo("peliculas")}
+      className={tipo === "peliculas" ? styles.activeTab : styles.tab}
+    >
+      Películas
+    </button>
+
+    <button
+      onClick={() => setTipo("capas")}
+      className={tipo === "capas" ? styles.activeTab : styles.tab}
+    >
+      Capas
+    </button>
+  </div>
+
+  <h1 className={styles.title}>Tabela de compatibilidades</h1>
+
+  <p className={styles.description}>
+    Bem vindo a tabela de capas e películas compatíveis da Smartcase, aqui você pode encontrar produtos semelhantes que poderão te ajudar a ganhar mais nas suas vendas. Se não encontrar algum modelo específico e/ou tiver sugestões para correção e melhoria do site, utilize a aba “Sugestões” no final da página, sua colaboração é essencial para aprimorarmos o sistema!
+  </p>
+
+</div>
 
           <p className={styles.subtitle}>
             Pesquise abaixo o modelo que deseja encontrar
           </p>
 
           {/* BUSCA */}
+
           <input
             value={busca}
             onChange={(e) => setBusca(e.target.value)}
@@ -115,25 +140,25 @@ export default function Home() {
           )}
 
           {resultados.length > 0 && (
-            <div className={styles.resultsBox}>
-              {resultados.map((m) => (
-                <div key={m.titulo} className={styles.resultItem}>
-                  <div className={styles.resultTitle}>{m.titulo}</div>
+  <div className={styles.resultsBox}>
+    {resultados.map((m) => (
+      <div key={m.titulo} className={styles.resultItem}>
+        <div className={styles.resultTitle}>{m.titulo}</div>
 
-                  {m.compativeis ? (
-                    <div className={styles.compat}>
-                      <span className={styles.compatLabel}>Compatíveis: </span>
-                      {m.compativeis}
-                    </div>
-                  ) : (
-                    <div className={styles.helper}>
-                      Sem informação de compatibilidade.
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          )}
+        {m.compativeis ? (
+          <div className={styles.compat}>
+            <span className={styles.compatLabel}>Compatíveis: </span>
+            {m.compativeis}
+          </div>
+        ) : (
+          <div className={styles.helper}>
+            Sem informação de compatibilidade.
+          </div>
+        )}
+      </div>
+    ))}
+  </div>
+)}
 
           <hr className={styles.divider} />
 
